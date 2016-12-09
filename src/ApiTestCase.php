@@ -34,6 +34,14 @@ class ApiTestCase extends TestCase
     }
 
     /**
+     * @return Client
+     */
+    public function client()
+    {
+        return $this->client;
+    }
+
+    /**
      * @param       $path
      * @param array $options
      *
