@@ -27,7 +27,7 @@ Add an environment variable to your PHPUnit Configuration that's your API's base
 </phpunit>
 ```
 
-Extend the `\Brunty\ApiTestCase` class:
+Extend the `\Brunty\ApiTestCase` class and call the `parent::setUp()` method:
 
 ```php
 <?php
@@ -36,7 +36,10 @@ use Brunty\ApiTestCase;
 
 class BooksApiTest extends ApiTestCase
 {
-
+    public function setUp()
+    {
+        parent::setUp();
+    }
 }
 ```
 
