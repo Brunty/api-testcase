@@ -1,6 +1,11 @@
 {
     "name": "brunty/api-testcase",
     "description": "A testcase that extends PHPUnit to help with testing API endpoints.",
+    "keywords": [
+        "phpunit",
+        "api",
+        "testcase"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
