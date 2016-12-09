@@ -1,6 +1,6 @@
 # Api TestCase
 
-[![Build Status](https://travis-ci.org/Brunty/api-testcase.svg?branch=master)](https://travis-ci.org/Brunty/api-testcase)
+[![Build Status](https://travis-ci.org/Brunty/api-testcase.svg?branch=master)](https://travis-ci.org/Brunty/api-testcase) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e/mini.png)](https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e)
 
 Just some basic helper stuff to help test API endpoints.
 
