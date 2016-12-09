@@ -1,0 +1,22 @@
+{
+    "name": "brunty/api-testcase",
+    "description": "A testcase that extends PHPUnit to help with testing API endpoints.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Brunt",
+            "email": "matt@mfyu.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Brunty\\": "src"
+        }
+    },
+    "require": {
+        "php": "~5.6|~7.0",
+        "phpunit/phpunit": "^5.7",
+        "guzzlehttp/guzzle": "^6.2"
+    }
+}
