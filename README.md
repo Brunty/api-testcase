@@ -70,7 +70,7 @@ class BooksApiTest extends ApiTestCase
 
 `getHeader(string $name)`
 
-Returns a response header matching the name;
+Returns a response header matching the name.
 
 ### Assertions
 
@@ -80,6 +80,8 @@ Returns a response header matching the name;
 * `assertResponseWasRedirect` (300 <= Response Code < 400)
 * `assertResponseWasClientError` (400 <= Response Code < 500)
 * `assertResponseWasServerError` (500 <= Response Code)
+* `assertResponseWasJson`
+* `assertResponseWasXml`
 
 
 

@@ -146,4 +146,51 @@ class ApiTestCaseTest extends ApiTestCase
         $this->get('/xml');
         $this->assertResponseWasXml();
     }
+
+    /**
+     * @test
+     * @dataProvider provider_for_it_gets_the_response_body_as_an_array
+     *
+     * @param $endPoint
+     */
+    public function it_gets_the_response_body_as_an_array($endPoint)
+    {
+        $this->get($endPoint);
+        self::assertTrue(is_array($this->responseBody(true)));
+    }
+
+    /**
+     * @return array
+     */
+    public function provider_for_it_gets_the_response_body_as_an_array()
+    {
+        return [
+            ['/get'],
+            ['/xml']
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider provider_for_it_gets_the_response_body_as_an_object
+     *
+     * @param $endPoint
+     * @param $class
+     */
+    public function it_gets_the_response_body_as_an_object($endPoint, $class)
+    {
+        $this->get($endPoint);
+        self::assertInstanceOf($class, $this->responseBody());
+    }
+
+    /**
+     * @return array
+     */
+    public function provider_for_it_gets_the_response_body_as_an_object()
+    {
+        return [
+            ['/get', \stdClass::class],
+            ['/xml', \SimpleXMLElement::class]
+        ];
+    }
 }

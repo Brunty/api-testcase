@@ -28,9 +28,11 @@ class ApiTestCase extends TestCase
 
     public function setUp()
     {
-        $this->client = new Client([
-            'base_uri' => $_ENV['api_base_url']
-        ]);
+        $this->client = new Client(
+            [
+                'base_uri' => $_ENV['api_base_url']
+            ]
+        );
     }
 
     /**
@@ -100,12 +102,41 @@ class ApiTestCase extends TestCase
 
     public function assertResponseWasJson()
     {
-        self::assertTrue($this->getContentType() === 'application/json');
+        self::assertTrue($this->contentTypeIsJson());
     }
 
     public function assertResponseWasXml()
     {
-        self::assertTrue($this->getContentType() === 'application/xml');
+        self::assertTrue($this->contentTypeIsXml());
+    }
+
+    /**
+     * @return string
+     */
+    public function rawResponseBody()
+    {
+        return $this->response->getBody()->getContents();
+    }
+
+    /**
+     * @param bool $asArray
+     *
+     * @return array|\stdClass|\SimpleXMLElement
+     */
+    public function responseBody($asArray = false)
+    {
+        if ($this->contentTypeIsJson()) {
+            return json_decode($this->rawResponseBody(), $asArray);
+        }
+
+        if ($this->contentTypeIsXml()) {
+            $xml = new \SimpleXMLElement($this->rawResponseBody());
+            if ($asArray === true) {
+                $xml = json_decode(json_encode($xml), true);
+            }
+
+            return $xml;
+        }
     }
 
     /**
@@ -114,5 +145,21 @@ class ApiTestCase extends TestCase
     private function getContentType()
     {
         return $this->response->getHeader('Content-Type')[0];
+    }
+
+    /**
+     * @return bool
+     */
+    private function contentTypeIsXml()
+    {
+        return $this->getContentType() === 'application/xml';
+    }
+
+    /**
+     * @return bool
+     */
+    private function contentTypeIsJson()
+    {
+        return $this->getContentType() === 'application/json';
     }
 }
