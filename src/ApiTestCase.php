@@ -53,37 +53,66 @@ class ApiTestCase extends TestCase
             $this->response = $this->client->get($path, $options);
             $this->statusCode = $this->response->getStatusCode();
         } catch (ClientException $e) {
-            $this->statusCode = $e->getCode();
+            $this->response = $e->getResponse();
+            $this->statusCode = $e->getResponse()->getStatusCode();
         } catch (ServerException $e) {
-            $this->statusCode = $e->getCode();
+            $this->response = $e->getResponse();
+            $this->statusCode = $e->getResponse()->getStatusCode();
         }
 
         return $this->response;
     }
 
-    public function assertRequestOk()
+    /**
+     * @param $name
+     *
+     * @return \string[]
+     */
+    public function getHeader($name)
+    {
+        return $this->response->getHeader($name);
+    }
+
+    public function assertResponseOk()
     {
         self::assertEquals(Response::HTTP_OK, $this->statusCode);
     }
 
-    public function assertRequestWasSuccess()
+    public function assertResponseWasSuccess()
     {
         self::assertTrue($this->statusCode >= 200 && $this->statusCode < 300);
     }
 
-    public function assertRequestWasRedirect()
+    public function assertResponseWasRedirect()
     {
         self::assertTrue($this->statusCode >= 300 && $this->statusCode < 400);
     }
 
-    public function assertRequestWasClientError()
+    public function assertResponseWasClientError()
     {
         self::assertTrue($this->statusCode >= 400 && $this->statusCode < 500);
     }
 
-
-    public function assertRequestWasServerError()
+    public function assertResponseWasServerError()
     {
         self::assertTrue($this->statusCode >= 500);
+    }
+
+    public function assertResponseWasJson()
+    {
+        self::assertTrue($this->getContentType() === 'application/json');
+    }
+
+    public function assertResponseWasXml()
+    {
+        self::assertTrue($this->getContentType() === 'application/xml');
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getContentType()
+    {
+        return $this->response->getHeader('Content-Type')[0];
     }
 }

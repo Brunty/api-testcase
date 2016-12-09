@@ -61,19 +61,25 @@ class BooksApiTest extends ApiTestCase
     public function the_api_retrieves_all_books()
     {
         $this->get('/books');
-        $this->assertRequestOk();
+        $this->assertResponseOk();
     }
 }
 ```
 
+### Headers
+
+`getHeader(string $name)`
+
+Returns a response header matching the name;
+
 ### Assertions
 
-* `assertRequestOk` (Response code 200)
-* `assertRequestWasSuccess` (200 <= Response Code < 300)
+* `assertResponseOk` (Response code 200)
+* `assertResponseWasSuccess` (200 <= Response Code < 300)
   * Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used. 
-* `assertRequestWasRedirect` (300 <= Response Code < 400)
-* `assertRequestWasClientError` (400 <= Response Code < 500)
-* `assertRequestWasServerError` (500 <= Response Code)
+* `assertResponseWasRedirect` (300 <= Response Code < 400)
+* `assertResponseWasClientError` (400 <= Response Code < 500)
+* `assertResponseWasServerError` (500 <= Response Code)
 
 
 
