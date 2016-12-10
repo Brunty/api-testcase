@@ -10,11 +10,6 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 class ApiTestCaseTest extends ApiTestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      * @dataProvider provider_for_it_makes_http_requests

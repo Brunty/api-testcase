@@ -27,7 +27,7 @@ Add an environment variable to your PHPUnit Configuration that's your API's base
 </phpunit>
 ```
 
-Extend the `\Brunty\ApiTestCase` class and call the `parent::setUp()` method:
+Extend the `\Brunty\ApiTestCase` class. If you need to configure the client, call `$this->configureClientOptions($options);` before calling `parent::setUp()`:
 
 ```php
 <?php
@@ -43,7 +43,6 @@ class BooksApiTest extends ApiTestCase
         ];
         
         // use this if you want to add additional options to the client when it's constructed
-        
         $this->configureClientOptions($options);
         parent::setUp();
     }
