@@ -200,6 +200,9 @@ Returns `true` if the content type is XML, `false` otherwise.
 
 Returns `true` if the content type is JSON, `false` otherwise.
 
+The `\Brunty\Response` object contains a list of constants for all HTTP status codes - these can help make status code assertions more readable - for example:
+
+`$this->assertResponseStatus(\Brunty\Response::HTTP_NO_CONTENT);` as opposed to `$this->assertResponseStatus(204);`
 
 ### Assertions
 
