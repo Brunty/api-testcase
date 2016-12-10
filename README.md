@@ -167,8 +167,8 @@ Returns a response header matching the name.
 
 * `assertResponseOk()` (Response code 200)
 * `assertResponseWasSuccess()` (200 <= Response Code < 300)
-  * Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used. 
 * `assertResponseWasRedirect()` (300 <= Response Code < 400)
+  * Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used. 
 * `assertResponseWasClientError()` (400 <= Response Code < 500)
 * `assertResponseWasServerError()` (500 <= Response Code)
 * `assertResponseWasJson()`
