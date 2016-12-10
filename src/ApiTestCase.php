@@ -2,7 +2,6 @@
 
 namespace Brunty;
 
-use Brunty\ContentTypeNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -178,7 +177,7 @@ class ApiTestCase extends TestCase
      * @param bool $asArray
      *
      * @return array|\SimpleXMLElement|\stdClass
-     * @throws \Brunty\ContentTypeNotFoundException
+     * @throws ContentTypeNotFoundException
      */
     public function responseBody($asArray = false)
     {
