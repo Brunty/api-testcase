@@ -6,9 +6,6 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
 use PHPUnit\Framework\TestCase;
 
 class ApiTestCase extends TestCase
@@ -36,11 +33,6 @@ class ApiTestCase extends TestCase
      * @var array
      */
     private $clientOptions = [];
-
-    /**
-     * @var array
-     */
-    private $statusCodeHistory = [];
 
     public function configureClientOptions(array $options = [])
     {
