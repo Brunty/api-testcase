@@ -61,7 +61,7 @@ class ApiTestCase extends TestCase
      */
     public function response()
     {
-        return $this->response();
+        return $this->response;
     }
 
     /**
@@ -69,7 +69,7 @@ class ApiTestCase extends TestCase
      */
     public function statusCode()
     {
-        return $this->statusCode();
+        return $this->statusCode;
     }
 
     /**
