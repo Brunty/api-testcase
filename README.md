@@ -164,13 +164,11 @@ class BooksApiTest extends ApiTestCase
 }
 ```
 
-### Headers
+### Headers & Responses
 
 `getHeader(string $name)`
 
 Returns a response header matching the name.
-
-### Responses
 
 `response()`
 
