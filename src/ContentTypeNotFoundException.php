@@ -2,7 +2,7 @@
 
 namespace Brunty;
 
-class ContentTypeNotFoundException
+class ContentTypeNotFoundException extends \Exception
 {
-    
+
 }
