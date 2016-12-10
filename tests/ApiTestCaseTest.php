@@ -193,4 +193,13 @@ class ApiTestCaseTest extends ApiTestCase
             ['/xml', \SimpleXMLElement::class]
         ];
     }
+
+    /**
+     * @test
+     */
+    public function it_asserts_the_response_has_a_key()
+    {
+        $this->get('/response-headers?X-Test-Header=testHeader1');
+        $this->assertResponseHasKey('X-Test-Header');
+    }
 }

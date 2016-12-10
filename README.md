@@ -77,14 +77,15 @@ Returns a response header matching the name.
 
 ### Assertions
 
-* `assertResponseOk` (Response code 200)
-* `assertResponseWasSuccess` (200 <= Response Code < 300)
+* `assertResponseOk()` (Response code 200)
+* `assertResponseWasSuccess()` (200 <= Response Code < 300)
   * Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used. 
-* `assertResponseWasRedirect` (300 <= Response Code < 400)
-* `assertResponseWasClientError` (400 <= Response Code < 500)
-* `assertResponseWasServerError` (500 <= Response Code)
-* `assertResponseWasJson`
-* `assertResponseWasXml`
+* `assertResponseWasRedirect()` (300 <= Response Code < 400)
+* `assertResponseWasClientError()` (400 <= Response Code < 500)
+* `assertResponseWasServerError()` (500 <= Response Code)
+* `assertResponseWasJson()`
+* `assertResponseWasXml()`
+* `assertResponseHasKey($key)`
 
 
 

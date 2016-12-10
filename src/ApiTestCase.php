@@ -11,6 +11,9 @@ use Psr\Http\Message\ResponseInterface;
 class ApiTestCase extends TestCase
 {
 
+    const XML_CONTENT_TYPE = 'application/xml';
+    const JSON_CONTENT_TYPE = 'application/json';
+
     /**
      * @var Client;
      */
@@ -77,37 +80,50 @@ class ApiTestCase extends TestCase
 
     public function assertResponseOk()
     {
-        self::assertEquals(Response::HTTP_OK, $this->statusCode);
+        self::assertEquals(Response::HTTP_OK, $this->statusCode, sprintf('Status code is not OK, status code is: %s', $this->statusCode));
     }
 
     public function assertResponseWasSuccess()
     {
-        self::assertTrue($this->statusCode >= 200 && $this->statusCode < 300);
+        self::assertTrue($this->statusCode >= 200 && $this->statusCode < 300, sprintf('Status code is not a success, status code is: %s', $this->statusCode));
     }
 
     public function assertResponseWasRedirect()
     {
-        self::assertTrue($this->statusCode >= 300 && $this->statusCode < 400);
+        self::assertTrue($this->statusCode >= 300 && $this->statusCode < 400, sprintf('Status code is not a redirect, status code is: %s', $this->statusCode));
     }
 
     public function assertResponseWasClientError()
     {
-        self::assertTrue($this->statusCode >= 400 && $this->statusCode < 500);
+        self::assertTrue($this->statusCode >= 400 && $this->statusCode < 500, sprintf('Status code is not a client error, status code is: %s', $this->statusCode));
     }
 
     public function assertResponseWasServerError()
     {
-        self::assertTrue($this->statusCode >= 500);
+        self::assertTrue($this->statusCode >= 500, sprintf('Status code is not a server error, status code is: %s', $this->statusCode));
     }
 
     public function assertResponseWasJson()
     {
-        self::assertTrue($this->contentTypeIsJson());
+        self::assertTrue(
+            $this->contentTypeIsJson(),
+            sprintf('Content type is not "%s", content type is: "%s"', self::JSON_CONTENT_TYPE, $this->getContentType())
+        );
     }
 
     public function assertResponseWasXml()
     {
-        self::assertTrue($this->contentTypeIsXml());
+        self::assertTrue(
+            $this->contentTypeIsXml(),
+            sprintf('Content type is not "%s", content type is: "%s"', self::XML_CONTENT_TYPE, $this->getContentType())
+        );
+    }
+
+    public function assertResponseHasKey($key)
+    {
+        $content = $this->responseBody(true);
+
+        self::assertTrue(isset($content[$key]), sprintf('Response body does not have the key %s', $key));
     }
 
     /**
@@ -152,7 +168,7 @@ class ApiTestCase extends TestCase
      */
     private function contentTypeIsXml()
     {
-        return $this->getContentType() === 'application/xml';
+        return $this->getContentType() === self::XML_CONTENT_TYPE;
     }
 
     /**
@@ -160,6 +176,6 @@ class ApiTestCase extends TestCase
      */
     private function contentTypeIsJson()
     {
-        return $this->getContentType() === 'application/json';
+        return $this->getContentType() === self::JSON_CONTENT_TYPE;
     }
 }
