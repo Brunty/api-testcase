@@ -3,6 +3,7 @@
 namespace Brunty\Tests;
 
 use Brunty\ApiTestCase;
+use Brunty\ContentTypeNotFoundException;
 
 class ApiTestCaseTest extends ApiTestCase
 {
@@ -211,6 +212,16 @@ class ApiTestCaseTest extends ApiTestCase
             ['/get', \stdClass::class],
             ['/xml', \SimpleXMLElement::class]
         ];
+    }
+
+    /**
+     * @test
+     * @expectedException \Brunty\ContentTypeNotFoundException
+     */
+    public function it_throws_an_exception_if_the_content_type_is_not_known()
+    {
+        $this->get('/html');
+        $this->responseBody();
     }
 
     /**
