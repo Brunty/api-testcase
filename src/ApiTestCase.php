@@ -2,6 +2,7 @@
 
 namespace Brunty;
 
+use Brunty\ContentTypeNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -153,6 +154,8 @@ class ApiTestCase extends TestCase
 
             return $xml;
         }
+
+        throw new ContentTypeNotFoundException(sprintf('Content-Type not recognised: "%s"', $this->getContentType()));
     }
 
     /**
