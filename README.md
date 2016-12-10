@@ -1,4 +1,4 @@
-# Api TestCase
+# Brunty\ApiTestCase
 
 [![Build Status](https://travis-ci.org/Brunty/api-testcase.svg?branch=master)](https://travis-ci.org/Brunty/api-testcase) [![Coverage Status](https://coveralls.io/repos/github/Brunty/api-testcase/badge.svg?branch=master)](https://coveralls.io/github/Brunty/api-testcase?branch=master) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e/mini.png)](https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e)
 
