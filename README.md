@@ -69,6 +69,94 @@ class BooksApiTest extends ApiTestCase
 }
 ```
 
+### POST
+
+`post(string $path [, array $options])`
+
+```php
+<?php
+
+use Brunty\ApiTestCase;
+
+class BooksApiTest extends ApiTestCase
+{
+    /**
+     * @test
+     */
+    public function the_api_creates_a_book()
+    {
+        $this->post('/books', ['title' => 'My Book']);
+        $this->assertResponseOk();
+    }
+}
+```
+
+### PATCH
+
+`patch(string $path [, array $options])`
+
+```php
+<?php
+
+use Brunty\ApiTestCase;
+
+class BooksApiTest extends ApiTestCase
+{
+    /**
+     * @test
+     */
+    public function the_api_updates_a_book()
+    {
+        $this->patch('/books/1', ['title' => 'My Updated Book']);
+        $this->assertResponseOk();
+    }
+}
+```
+
+### PUT
+
+`put(string $path [, array $options])`
+
+```php
+<?php
+
+use Brunty\ApiTestCase;
+
+class BooksApiTest extends ApiTestCase
+{
+    /**
+     * @test
+     */
+    public function the_api_creates_or_updates_a_book()
+    {
+        $this->put('/books', ['title' => 'My Updated Book']);
+        $this->assertResponseOk();
+    }
+}
+```
+
+### DELETE
+
+`delete(string $path [, array $options])`
+
+```php
+<?php
+
+use Brunty\ApiTestCase;
+
+class BooksApiTest extends ApiTestCase
+{
+    /**
+     * @test
+     */
+    public function the_api_deletes_a_book()
+    {
+        $this->delete('/books/1');
+        $this->assertResponseOk();
+    }
+}
+```
+
 ### Headers
 
 `getHeader(string $name)`
@@ -86,9 +174,6 @@ Returns a response header matching the name.
 * `assertResponseWasJson()`
 * `assertResponseWasXml()`
 * `assertResponseHasKey($key)`
-
-
-
 
 ## Contributing
 
