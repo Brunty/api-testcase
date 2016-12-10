@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>ApiTestCase by Brunty</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">ApiTestCase</h1>
+      <h2 class="project-tagline">A PHPUnit Test Case that contains methods to help with testing APIs.</h2>
+      <a href="https://github.com/Brunty/api-testcase" class="btn">View on GitHub</a>
+      <a href="https://github.com/Brunty/api-testcase/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Brunty/api-testcase/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="bruntyapitestcase" class="anchor" href="#bruntyapitestcase" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Brunty\ApiTestCase</h1>
+
+<p><a href="https://travis-ci.org/Brunty/api-testcase"><img src="https://travis-ci.org/Brunty/api-testcase.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/Brunty/api-testcase?branch=master"><img src="https://coveralls.io/repos/github/Brunty/api-testcase/badge.svg?branch=master" alt="Coverage Status"></a> <a href="https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e"><img src="https://insight.sensiolabs.com/projects/53748ffe-c2de-48f6-b0be-fffa9af7c39e/mini.png" alt="SensioLabsInsight"></a></p>
+
+<p>Just some basic helper stuff to help test API endpoints.</p>
+
+<h2>
+<a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compatibility</h2>
+
+<ul>
+<li>PHP 5.6 and above</li>
+<li>PHPUnit 5.7 and above</li>
+<li>Guzzlehttp 6.2 and above</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p><code>composer require brunty/api-testcase --dev</code></p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Add an environment variable to your PHPUnit Configuration that's your API's base URL:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;?<span class="pl-ent">xml</span><span class="pl-e"> version</span>=<span class="pl-s"><span class="pl-pds">"</span>1.0<span class="pl-pds">"</span></span><span class="pl-e"> encoding</span>=<span class="pl-s"><span class="pl-pds">"</span>UTF-8<span class="pl-pds">"</span></span>?&gt;
+&lt;<span class="pl-ent">phpunit</span>&gt;
+    &lt;<span class="pl-ent">php</span>&gt;
+        &lt;<span class="pl-ent">env</span> <span class="pl-e">name</span>=<span class="pl-s"><span class="pl-pds">"</span>api_base_url<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>http://httpbin.org<span class="pl-pds">"</span></span>/&gt;
+    &lt;/<span class="pl-ent">php</span>&gt;
+&lt;/<span class="pl-ent">phpunit</span>&gt;</pre></div>
+
+<p>Extend the <code>\Brunty\ApiTestCase</code> class. If you need to configure the client, call <code>$this-&gt;configureClientOptions($options);</code> before calling <code>parent::setUp()</code>:</p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">setUp</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$options</span> <span class="pl-k">=</span> [</span>
+<span class="pl-s1">            <span class="pl-c">// ...</span></span>
+<span class="pl-s1">        ];</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-c">// use this if you want to add additional options to the client when it's constructed</span></span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>configureClientOptions(<span class="pl-smi">$options</span>);</span>
+<span class="pl-s1">        <span class="pl-k">parent</span><span class="pl-k">::</span>setUp();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h2>
+<a id="methods-and-requests-available" class="anchor" href="#methods-and-requests-available" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Methods and requests available</h2>
+
+<p>The test case uses <a href="http://docs.guzzlephp.org/en/latest/index.html">Guzzle</a> (<code>\GuzzleHttp\Client</code>) under the surface, so requests are effectively just made through that. If you need to access the client, you can do so with <code>$this-&gt;client();</code> within your test class.</p>
+
+<h3>
+<a id="get" class="anchor" href="#get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GET</h3>
+
+<p><code>get(string $path [, array $options])</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * @test</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">the_api_retrieves_all_books</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>get(<span class="pl-s"><span class="pl-pds">'</span>/books<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>assertResponseOk();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="post" class="anchor" href="#post" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>POST</h3>
+
+<p><code>post(string $path [, array $options])</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * @test</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">the_api_creates_a_book</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>post(<span class="pl-s"><span class="pl-pds">'</span>/books<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>My Book<span class="pl-pds">'</span></span>]);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>assertResponseOk();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="patch" class="anchor" href="#patch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PATCH</h3>
+
+<p><code>patch(string $path [, array $options])</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * @test</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">the_api_updates_a_book</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>patch(<span class="pl-s"><span class="pl-pds">'</span>/books/1<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>My Updated Book<span class="pl-pds">'</span></span>]);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>assertResponseOk();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="put" class="anchor" href="#put" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PUT</h3>
+
+<p><code>put(string $path [, array $options])</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * @test</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">the_api_creates_or_updates_a_book</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>put(<span class="pl-s"><span class="pl-pds">'</span>/books<span class="pl-pds">'</span></span>, [<span class="pl-s"><span class="pl-pds">'</span>title<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s"><span class="pl-pds">'</span>My Updated Book<span class="pl-pds">'</span></span>]);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>assertResponseOk();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="delete" class="anchor" href="#delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DELETE</h3>
+
+<p><code>delete(string $path [, array $options])</code></p>
+
+<div class="highlight highlight-text-html-php"><pre><span class="pl-pse">&lt;?php</span><span class="pl-s1"></span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">use</span> <span class="pl-c1">Brunty\ApiTestCase</span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1"><span class="pl-k">class</span> <span class="pl-en">BooksApiTest</span> <span class="pl-k">extends</span> <span class="pl-e">ApiTestCase</span></span>
+<span class="pl-s1">{</span>
+<span class="pl-s1">    <span class="pl-c">/**</span></span>
+<span class="pl-s1"><span class="pl-c">     * @test</span></span>
+<span class="pl-s1"><span class="pl-c">     */</span></span>
+<span class="pl-s1">    <span class="pl-k">public</span> <span class="pl-k">function</span> <span class="pl-en">the_api_deletes_a_book</span>()</span>
+<span class="pl-s1">    {</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>delete(<span class="pl-s"><span class="pl-pds">'</span>/books/1<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span>assertResponseOk();</span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">}</span></pre></div>
+
+<h3>
+<a id="headers--responses" class="anchor" href="#headers--responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Headers &amp; Responses</h3>
+
+<p><code>getHeader(string $name)</code></p>
+
+<p>Returns a response header matching the name.</p>
+
+<p><code>response()</code></p>
+
+<p>Returns the response object.</p>
+
+<p><code>statusCode()</code></p>
+
+<p>Returns the status code from the response.</p>
+
+<p><code>rawResponseBody()</code></p>
+
+<p>Returns the contents of the body of the response.</p>
+
+<p><code>responseBody($asArray)</code></p>
+
+<p>Returns the response body, parsed into either an array (if <code>$asArray</code> is true) or: <code>\stdClass</code> if the response was JSON, <code>\SimpleXmlElement</code> if the response was XML.</p>
+
+<p>If the content type of the response cannot be determined to be either XML or JSON, a <code>\Brunty\ContentTypeNotFound</code> exception will be thrown.</p>
+
+<p><code>getContentType()</code></p>
+
+<p>Returns the value of the first <code>Content-Type</code> header element.</p>
+
+<p><code>contentTypeIsXml()</code></p>
+
+<p>Returns <code>true</code> if the content type is XML, <code>false</code> otherwise.</p>
+
+<p><code>contentTypeIsJson()</code></p>
+
+<p>Returns <code>true</code> if the content type is JSON, <code>false</code> otherwise.</p>
+
+<p>The <code>\Brunty\Response</code> class contains a list of constants for all HTTP status codes - these can help make status code assertions more readable - for example:</p>
+
+<p><code>$this-&gt;assertResponseStatus(\Brunty\Response::HTTP_NO_CONTENT);</code> as opposed to <code>$this-&gt;assertResponseStatus(204);</code></p>
+
+<h3>
+<a id="assertions" class="anchor" href="#assertions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assertions</h3>
+
+<ul>
+<li><code>assertResponseStatus($status)</code></li>
+<li>
+<code>assertResponseOk()</code> (Response code 200)</li>
+<li>
+<code>assertResponseWasSuccess()</code> (200 &lt;= Response Code &lt; 300)</li>
+<li>
+<code>assertResponseWasRedirect()</code> (300 &lt;= Response Code &lt; 400)
+
+<ul>
+<li>Note that you may need to set the <code>allow_redirects</code> option to <code>false</code> otherwise status codes of the page after the redirect can be used. </li>
+</ul>
+</li>
+<li>
+<code>assertResponseWasClientError()</code> (400 &lt;= Response Code &lt; 500)</li>
+<li>
+<code>assertResponseWasServerError()</code> (500 &lt;= Response Code)</li>
+<li><code>assertResponseWasJson()</code></li>
+<li><code>assertResponseWasXml()</code></li>
+<li><code>assertResponseHasKey($key)</code></li>
+<li>
+<code>assertRedirectedTo($path)</code> Path can be absolute, or relative to the root <code>api_base_url</code>
+</li>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Although this project is small, openness and inclusivity are taken seriously. To that end the following code of conduct has been adopted.</p>
+
+<p><a href="CONTRIBUTING.md">Contributor Code of Conduct</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Brunty/api-testcase">ApiTestCase</a> is maintained by <a href="https://github.com/Brunty">Brunty</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
