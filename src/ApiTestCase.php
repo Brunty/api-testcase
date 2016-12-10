@@ -48,25 +48,48 @@ class ApiTestCase extends TestCase
     }
 
     /**
-     * @param       $path
-     * @param array $options
-     *
-     * @return ResponseInterface
+     * @param string $path
+     * @param array  $options
      */
     public function get($path, array $options = [])
     {
-        try {
-            $this->response = $this->client->get($path, $options);
-            $this->statusCode = $this->response->getStatusCode();
-        } catch (ClientException $e) {
-            $this->response = $e->getResponse();
-            $this->statusCode = $e->getResponse()->getStatusCode();
-        } catch (ServerException $e) {
-            $this->response = $e->getResponse();
-            $this->statusCode = $e->getResponse()->getStatusCode();
-        }
+        $this->request('get', $path, $options);
+    }
 
-        return $this->response;
+    /**
+     * @param string $path
+     * @param array  $options
+     */
+    public function post($path, array $options = [])
+    {
+        $this->request('post', $path, $options);
+    }
+
+    /**
+     * @param string $path
+     * @param array  $options
+     */
+    public function patch($path, array $options = [])
+    {
+        $this->request('patch', $path, $options);
+    }
+
+    /**
+     * @param string $path
+     * @param array  $options
+     */
+    public function put($path, array $options = [])
+    {
+        $this->request('put', $path, $options);
+    }
+
+    /**
+     * @param string $path
+     * @param array  $options
+     */
+    public function delete($path, array $options = [])
+    {
+        $this->request('delete', $path, $options);
     }
 
     /**
@@ -81,27 +104,43 @@ class ApiTestCase extends TestCase
 
     public function assertResponseOk()
     {
-        self::assertEquals(Response::HTTP_OK, $this->statusCode, sprintf('Status code is not OK, status code is: %s', $this->statusCode));
+        self::assertEquals(
+            Response::HTTP_OK,
+            $this->statusCode,
+            sprintf('Status code is not OK, status code is: %s', $this->statusCode)
+        );
     }
 
     public function assertResponseWasSuccess()
     {
-        self::assertTrue($this->statusCode >= 200 && $this->statusCode < 300, sprintf('Status code is not a success, status code is: %s', $this->statusCode));
+        self::assertTrue(
+            $this->statusCode >= 200 && $this->statusCode < 300,
+            sprintf('Status code is not a success, status code is: %s', $this->statusCode)
+        );
     }
 
     public function assertResponseWasRedirect()
     {
-        self::assertTrue($this->statusCode >= 300 && $this->statusCode < 400, sprintf('Status code is not a redirect, status code is: %s', $this->statusCode));
+        self::assertTrue(
+            $this->statusCode >= 300 && $this->statusCode < 400,
+            sprintf('Status code is not a redirect, status code is: %s', $this->statusCode)
+        );
     }
 
     public function assertResponseWasClientError()
     {
-        self::assertTrue($this->statusCode >= 400 && $this->statusCode < 500, sprintf('Status code is not a client error, status code is: %s', $this->statusCode));
+        self::assertTrue(
+            $this->statusCode >= 400 && $this->statusCode < 500,
+            sprintf('Status code is not a client error, status code is: %s', $this->statusCode)
+        );
     }
 
     public function assertResponseWasServerError()
     {
-        self::assertTrue($this->statusCode >= 500, sprintf('Status code is not a server error, status code is: %s', $this->statusCode));
+        self::assertTrue(
+            $this->statusCode >= 500,
+            sprintf('Status code is not a server error, status code is: %s', $this->statusCode)
+        );
     }
 
     public function assertResponseWasJson()
@@ -138,7 +177,8 @@ class ApiTestCase extends TestCase
     /**
      * @param bool $asArray
      *
-     * @return array|\stdClass|\SimpleXMLElement
+     * @return array|\SimpleXMLElement|\stdClass
+     * @throws \Brunty\ContentTypeNotFoundException
      */
     public function responseBody($asArray = false)
     {
@@ -156,6 +196,25 @@ class ApiTestCase extends TestCase
         }
 
         throw new ContentTypeNotFoundException(sprintf('Content-Type not recognised: "%s"', $this->getContentType()));
+    }
+
+    /**
+     * @param $type
+     * @param $path
+     * @param $options
+     */
+    private function request($type, $path, $options)
+    {
+        try {
+            $this->response = $this->client->$type($path, $options);
+            $this->statusCode = $this->response->getStatusCode();
+        } catch (ClientException $e) {
+            $this->response = $e->getResponse();
+            $this->statusCode = $e->getResponse()->getStatusCode();
+        } catch (ServerException $e) {
+            $this->response = $e->getResponse();
+            $this->statusCode = $e->getResponse()->getStatusCode();
+        }
     }
 
     /**

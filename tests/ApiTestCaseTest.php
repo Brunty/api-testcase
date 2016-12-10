@@ -11,13 +11,32 @@ class ApiTestCaseTest extends ApiTestCase
     {
         parent::setUp();
     }
+
     /**
      * @test
+     * @dataProvider provider_for_it_makes_http_requests
+     *
+     * @param $method
+     * @param $path
      */
-    public function it_gets_an_endpoint()
+    public function it_makes_http_requests($method, $path)
     {
-        $this->get('/get');
+        $this->$method($path);
         $this->assertResponseOk();
+    }
+
+    /**
+     * @return array
+     */
+    public function provider_for_it_makes_http_requests()
+    {
+        return [
+            ['get', '/get'],
+            ['put', '/put'],
+            ['post', '/post'],
+            ['patch', '/patch'],
+            ['delete', '/delete'],
+        ];
     }
 
     /**
