@@ -57,7 +57,7 @@ class ApiTestCase extends TestCase
     }
 
     /**
-     * @return Response
+     * @return GuzzleResponse
      */
     public function response()
     {
@@ -246,6 +246,30 @@ class ApiTestCase extends TestCase
     }
 
     /**
+     * @return mixed
+     */
+    public function getContentType()
+    {
+        return $this->response->getHeader('Content-Type')[0];
+    }
+
+    /**
+     * @return bool
+     */
+    public function contentTypeIsXml()
+    {
+        return $this->getContentType() === self::XML_CONTENT_TYPE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function contentTypeIsJson()
+    {
+        return $this->getContentType() === self::JSON_CONTENT_TYPE;
+    }
+
+    /**
      * @param $type
      * @param $path
      * @param $options
@@ -267,30 +291,6 @@ class ApiTestCase extends TestCase
             $this->response = $e->getResponse();
             $this->statusCode = $e->getResponse()->getStatusCode();
         }
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getContentType()
-    {
-        return $this->response->getHeader('Content-Type')[0];
-    }
-
-    /**
-     * @return bool
-     */
-    private function contentTypeIsXml()
-    {
-        return $this->getContentType() === self::XML_CONTENT_TYPE;
-    }
-
-    /**
-     * @return bool
-     */
-    private function contentTypeIsJson()
-    {
-        return $this->getContentType() === self::JSON_CONTENT_TYPE;
     }
 
     /**

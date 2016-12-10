@@ -170,6 +170,39 @@ class BooksApiTest extends ApiTestCase
 
 Returns a response header matching the name.
 
+### Responses
+
+`response()`
+
+Returns the response object.
+
+`statusCode()`
+
+Returns the status code from the response.
+
+`rawResponseBody()`
+
+Returns the contents of the body of the response.
+
+`responseBody($asArray)`
+
+Returns the response body, parsed into either an array (if `$asArray` is true) or: `\stdClass` if the response was JSON, `\SimpleXmlElement` if the response was XML.
+
+If the content type of the response cannot be determined to be either XML or JSON, a `\Brunty\ContentTypeNotFound` exception will be thrown.
+
+`getContentType()`
+
+Returns the value of the first `Content-Type` header element.
+
+`contentTypeIsXml()`
+
+Returns `true` if the content type is XML, `false` otherwise.
+
+`contentTypeIsJson()`
+
+Returns `true` if the content type is JSON, `false` otherwise.
+
+
 ### Assertions
 
 * `assertResponseStatus($status)`
