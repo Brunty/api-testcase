@@ -4,6 +4,8 @@ namespace Brunty\Tests;
 
 use Brunty\ApiTestCase;
 use Brunty\Response;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 class ApiTestCaseTest extends ApiTestCase
 {
@@ -258,5 +260,23 @@ class ApiTestCaseTest extends ApiTestCase
     {
         $this->get('/response-headers?X-Test-Header=testHeader1');
         $this->assertResponseHasKey('X-Test-Header');
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_client()
+    {
+        self::assertInstanceOf(Client::class, $this->client());
+    }
+
+    /**
+     * @test
+     */
+    public function it_returns_the_response_and_status_code()
+    {
+        $this->get('/get');
+        self::assertInstanceOf(GuzzleResponse::class, $this->response());
+        self::assertEquals(Response::HTTP_OK, $this->statusCode());
     }
 }
