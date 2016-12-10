@@ -3,7 +3,7 @@
 namespace Brunty\Tests;
 
 use Brunty\ApiTestCase;
-use Brunty\ContentTypeNotFoundException;
+use Brunty\Response;
 
 class ApiTestCaseTest extends ApiTestCase
 {
@@ -38,6 +38,15 @@ class ApiTestCaseTest extends ApiTestCase
             ['patch', '/patch'],
             ['delete', '/delete'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_asserts_that_a_response_matches()
+    {
+        $this->get('/status/201');
+        $this->assertResponseStatus(Response::HTTP_CREATED);
     }
 
     /**
@@ -147,6 +156,24 @@ class ApiTestCaseTest extends ApiTestCase
             'another header here'
         ];
         self::assertEquals($headers, $this->getHeader('X-Test-Header'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_asserts_that_you_were_redirected_correctly_with_absolute_url()
+    {
+        $this->get('/status/301');
+        $this->assertRedirectedTo('http://httpbin.org/get');
+    }
+
+    /**
+     * @test
+     */
+    public function it_asserts_that_you_were_redirected_correctly_with_relative_url()
+    {
+        $this->get('/status/301');
+        $this->assertRedirectedTo('/get');
     }
 
     /**

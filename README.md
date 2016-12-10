@@ -38,6 +38,13 @@ class BooksApiTest extends ApiTestCase
 {
     public function setUp()
     {
+        $options = [
+            // ...
+        ];
+        
+        // use this if you want to add additional options to the client when it's constructed
+        
+        $this->configureClientOptions($options);
         parent::setUp();
     }
 }
@@ -165,6 +172,7 @@ Returns a response header matching the name.
 
 ### Assertions
 
+* `assertResponseStatus($status)`
 * `assertResponseOk()` (Response code 200)
 * `assertResponseWasSuccess()` (200 <= Response Code < 300)
 * `assertResponseWasRedirect()` (300 <= Response Code < 400)
@@ -174,6 +182,7 @@ Returns a response header matching the name.
 * `assertResponseWasJson()`
 * `assertResponseWasXml()`
 * `assertResponseHasKey($key)`
+* `assertRedirectedTo($path)` Path can be absolute, or relative to the root `api_base_url`
 
 ## Contributing
 

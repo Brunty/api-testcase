@@ -5,8 +5,11 @@ namespace Brunty;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
-use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
+use PHPUnit\Framework\TestCase;
 
 class ApiTestCase extends TestCase
 {
@@ -20,7 +23,7 @@ class ApiTestCase extends TestCase
     private $client;
 
     /**
-     * @var ResponseInterface
+     * @var GuzzleResponse
      */
     private $response;
 
@@ -29,11 +32,26 @@ class ApiTestCase extends TestCase
      */
     private $statusCode;
 
+    /**
+     * @var array
+     */
+    private $clientOptions = [];
+
+    /**
+     * @var array
+     */
+    private $statusCodeHistory = [];
+
+    public function configureClientOptions(array $options = [])
+    {
+        $this->clientOptions = $options;
+    }
+
     public function setUp()
     {
         $this->client = new Client(
-            [
-                'base_uri' => $_ENV['api_base_url']
+            $this->clientOptions + [
+                'base_uri' => $this->baseUrl()
             ]
         );
     }
@@ -44,6 +62,22 @@ class ApiTestCase extends TestCase
     public function client()
     {
         return $this->client;
+    }
+
+    /**
+     * @return Response
+     */
+    public function response()
+    {
+        return $this->response();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function statusCode()
+    {
+        return $this->statusCode();
     }
 
     /**
@@ -101,6 +135,18 @@ class ApiTestCase extends TestCase
         return $this->response->getHeader($name);
     }
 
+    /**
+     * @param int $status
+     */
+    public function assertResponseStatus($status)
+    {
+        self::assertEquals(
+            $status,
+            $this->statusCode,
+            sprintf('Expected response status %s not found. Response status is: %s', $status, $this->statusCode)
+        );
+    }
+
     public function assertResponseOk()
     {
         self::assertEquals(
@@ -140,6 +186,16 @@ class ApiTestCase extends TestCase
             $this->statusCode >= 500,
             sprintf('Status code is not a server error, status code is: %s', $this->statusCode)
         );
+    }
+
+    /**
+     * @param $path
+     */
+    public function assertRedirectedTo($path)
+    {
+        $headers = $this->response->getHeader('X-Guzzle-Redirect-History');
+        $path = $this->absolutePath($path);
+        self::assertEquals($path, end($headers));
     }
 
     public function assertResponseWasJson()
@@ -204,6 +260,11 @@ class ApiTestCase extends TestCase
      */
     private function request($type, $path, $options)
     {
+        $options = $options + [
+                'allow_redirects' => [
+                    'track_redirects' => true
+                ]
+            ];
         try {
             $this->response = $this->client->$type($path, $options);
             $this->statusCode = $this->response->getStatusCode();
@@ -238,5 +299,29 @@ class ApiTestCase extends TestCase
     private function contentTypeIsJson()
     {
         return $this->getContentType() === self::JSON_CONTENT_TYPE;
+    }
+
+    /**
+     * @param $path
+     *
+     * @return mixed
+     */
+    private function absolutePath($path)
+    {
+        $baseUrl = $this->baseUrl();
+
+        if ( ! strstr($path, $baseUrl)) {
+            $path = rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
+        }
+
+        return $path;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function baseUrl()
+    {
+        return $_ENV['api_base_url'];
     }
 }
