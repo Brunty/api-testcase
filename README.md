@@ -219,6 +219,8 @@ The `\Brunty\Response` class contains a list of constants for all HTTP status co
 
 ## Contributing
 
+This started as a project of boredom one Friday evening, if you find yourself using this, and want more features, please feel free to suggest them, or submit a PR!
+
 Although this project is small, openness and inclusivity are taken seriously. To that end the following code of conduct has been adopted.
 
 [Contributor Code of Conduct](CONTRIBUTING.md)
