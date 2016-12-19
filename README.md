@@ -205,18 +205,19 @@ The `\Brunty\Response` class contains a list of constants for all HTTP status co
 
 ### Assertions
 
-* `assertResponseStatus($status)`
-* `assertResponseOk()` (Response code 200)
-* `assertResponseWasSuccess()` (200 <= Response Code < 300)
-* `assertResponseWasRedirect()` (300 <= Response Code < 400)
-  * Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used. 
-* `assertResponseWasClientError()` (400 <= Response Code < 500)
-* `assertResponseWasServerError()` (500 <= Response Code)
-* `assertResponseWasJson()`
-* `assertResponseWasXml()`
-* `assertResponseHasKey($key)`
-* `assertNodeIsValue($xPathQuery, $value)` Runs the xpath query against the result (yes, even for JSON - though that's a bit experimental) and asserts that the value is correct - currently only works with strings.
-* `assertRedirectedTo($path)` Path can be absolute, or relative to the root `api_base_url`
+| Assertion        | Notes|
+|:------------- |:-------------|
+| `assertResponseStatus($status)` | |
+| `assertResponseOk()` | (Response code 200) |
+| `assertResponseWasSuccess()` | (200 <= Response Code < 300) |
+| `assertResponseWasRedirect()` | (300 <= Response Code < 400) _Note that you may need to set the `allow_redirects` option to `false` otherwise status codes of the page after the redirect can be used._ | 
+|  `assertResponseWasClientError()` | (400 <= Response Code < 500) |
+|  `assertResponseWasServerError()` | (500 <= Response Code) |
+|  `assertResponseWasJson()` | |
+|  `assertResponseWasXml()` | |
+|  `assertResponseHasKey($key)` | |
+|  `assertNodeIsValue($xPathQuery, $value)` | Runs the xpath query against the result (yes, even for JSON - though | that's a bit experimental) and asserts that the value is correct - currently only works with strings.
+|  `assertRedirectedTo($path)` | Path can be absolute, or relative to the root `api_base_url` |
 
 ## Contributing
 
