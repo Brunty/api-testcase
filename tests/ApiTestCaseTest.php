@@ -176,6 +176,15 @@ class ApiTestCaseTest extends ApiTestCase
     /**
      * @test
      */
+    public function it_asserts_the_value_of_a_node_in_an_xml_response_is_null_if_it_does_not_exist()
+    {
+        $this->get('/xml');
+        self::assertNodeIsValue('//slide[43]//foo/bar/title', null);
+    }
+
+    /**
+     * @test
+     */
     public function it_asserts_that_you_were_redirected_correctly_with_absolute_url()
     {
         $this->get('/status/301');
