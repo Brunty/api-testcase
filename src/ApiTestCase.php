@@ -7,6 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use PHPUnit\Framework\TestCase;
+use Spatie\ArrayToXml\ArrayToXml;
 
 class ApiTestCase extends TestCase
 {
@@ -33,6 +34,11 @@ class ApiTestCase extends TestCase
      * @var array
      */
     private $clientOptions = [];
+
+    /**
+     * @var \SimpleXMLElement
+     */
+    private $bodyAsXml;
 
     public function configureClientOptions(array $options = [])
     {
@@ -214,6 +220,15 @@ class ApiTestCase extends TestCase
     }
 
     /**
+     * @param string      $query
+     * @param string|null $value
+     */
+    public function assertNodeIsValue($query, $value)
+    {
+        self::assertEquals($value, $this->query($query));
+    }
+
+    /**
      * @return string
      */
     public function rawResponseBody()
@@ -315,5 +330,41 @@ class ApiTestCase extends TestCase
     private function baseUrl()
     {
         return $_ENV['api_base_url'];
+    }
+
+    /**
+     * @return \SimpleXMLElement
+     */
+    private function getBodyAsXml()
+    {
+        if ($this->bodyAsXml === null) {
+            if ($this->contentTypeIsXml()) {
+                $this->bodyAsXml = $this->responseBody();
+            }
+
+            if ($this->contentTypeIsJson()) {
+                $this->bodyAsXml = new \SimpleXMLElement(ArrayToXml::convert($this->responseBody(true)));
+            }
+        }
+
+        return $this->bodyAsXml;
+    }
+
+    /**
+     * @param $query
+     *
+     * @return null|string
+     */
+    private function query($query)
+    {
+        $xml = $this->getBodyAsXml();
+
+        $result = $xml->xpath($query);
+
+        if (count($result)) {
+            return (string)$result[0];
+        }
+
+        return null;
     }
 }

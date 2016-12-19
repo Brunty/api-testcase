@@ -215,6 +215,7 @@ The `\Brunty\Response` class contains a list of constants for all HTTP status co
 * `assertResponseWasJson()`
 * `assertResponseWasXml()`
 * `assertResponseHasKey($key)`
+* `assertNodeIsValue($xPathQuery, $value)` Runs the xpath query against the result (yes, even for JSON - though that's a bit experimental) and asserts that the value is correct - currently only works with strings.
 * `assertRedirectedTo($path)` Path can be absolute, or relative to the root `api_base_url`
 
 ## Contributing

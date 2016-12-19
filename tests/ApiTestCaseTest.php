@@ -158,6 +158,24 @@ class ApiTestCaseTest extends ApiTestCase
     /**
      * @test
      */
+    public function it_asserts_the_value_of_a_node_in_a_json_response()
+    {
+        $this->get('/response-headers?X-Foo=Bar');
+        self::assertNodeIsValue('//X-Foo[1]', 'Bar');
+    }
+
+    /**
+     * @test
+     */
+    public function it_asserts_the_value_of_a_node_in_an_xml_response()
+    {
+        $this->get('/xml');
+        self::assertNodeIsValue('//slide[1]/title', 'Wake up to WonderWidgets!');
+    }
+
+    /**
+     * @test
+     */
     public function it_asserts_that_you_were_redirected_correctly_with_absolute_url()
     {
         $this->get('/status/301');
