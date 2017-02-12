@@ -6,8 +6,8 @@ Just some basic helper stuff to help test API endpoints.
 
 ## Compatibility
 
-* PHP 5.6 and above
-* PHPUnit 5.7 and above
+* PHP 7.0 and above
+* PHPUnit 6.0 and above
 * Guzzlehttp 6.2 and above
 
 ## Installation

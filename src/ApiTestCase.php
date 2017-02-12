@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Brunty;
 
 use GuzzleHttp\Client;
@@ -7,6 +9,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use PHPUnit\Framework\TestCase;
+use SimpleXMLElement;
 use Spatie\ArrayToXml\ArrayToXml;
 
 class ApiTestCase extends TestCase
@@ -54,89 +57,52 @@ class ApiTestCase extends TestCase
         );
     }
 
-    /**
-     * @return Client
-     */
-    public function client()
+    public function client(): Client
     {
         return $this->client;
     }
 
-    /**
-     * @return GuzzleResponse
-     */
-    public function response()
+    public function response(): GuzzleResponse
     {
         return $this->response;
     }
 
-    /**
-     * @return mixed
-     */
-    public function statusCode()
+    public function statusCode(): int
     {
         return $this->statusCode;
     }
 
-    /**
-     * @param string $path
-     * @param array  $options
-     */
-    public function get($path, array $options = [])
+    public function get(string $path, array $options = [])
     {
         $this->request('get', $path, $options);
     }
 
-    /**
-     * @param string $path
-     * @param array  $options
-     */
-    public function post($path, array $options = [])
+    public function post(string $path, array $options = [])
     {
         $this->request('post', $path, $options);
     }
 
-    /**
-     * @param string $path
-     * @param array  $options
-     */
-    public function patch($path, array $options = [])
+    public function patch(string $path, array $options = [])
     {
         $this->request('patch', $path, $options);
     }
 
-    /**
-     * @param string $path
-     * @param array  $options
-     */
-    public function put($path, array $options = [])
+    public function put(string $path, array $options = [])
     {
         $this->request('put', $path, $options);
     }
 
-    /**
-     * @param string $path
-     * @param array  $options
-     */
-    public function delete($path, array $options = [])
+    public function delete(string $path, array $options = [])
     {
         $this->request('delete', $path, $options);
     }
 
-    /**
-     * @param $name
-     *
-     * @return \string[]
-     */
-    public function getHeader($name)
+    public function getHeader(string $name): array
     {
         return $this->response->getHeader($name);
     }
 
-    /**
-     * @param int $status
-     */
-    public function assertResponseStatus($status)
+    public function assertResponseStatus(int $status)
     {
         self::assertEquals(
             $status,
@@ -186,10 +152,7 @@ class ApiTestCase extends TestCase
         );
     }
 
-    /**
-     * @param $path
-     */
-    public function assertRedirectedTo($path)
+    public function assertRedirectedTo(string $path)
     {
         $headers = $this->response->getHeader('X-Guzzle-Redirect-History');
         $path = $this->absolutePath($path);
@@ -212,7 +175,7 @@ class ApiTestCase extends TestCase
         );
     }
 
-    public function assertResponseHasKey($key)
+    public function assertResponseHasKey(string $key)
     {
         $content = $this->responseBody(true);
 
@@ -220,18 +183,15 @@ class ApiTestCase extends TestCase
     }
 
     /**
-     * @param string      $query
+     * @param string $query
      * @param string|null $value
      */
-    public function assertNodeIsValue($query, $value)
+    public function assertNodeIsValue(string $query, $value)
     {
         self::assertEquals($value, $this->query($query));
     }
 
-    /**
-     * @return string
-     */
-    public function rawResponseBody()
+    public function rawResponseBody(): string
     {
         return $this->response->getBody()->getContents();
     }
@@ -242,7 +202,7 @@ class ApiTestCase extends TestCase
      * @return array|\SimpleXMLElement|\stdClass
      * @throws ContentTypeNotFoundException
      */
-    public function responseBody($asArray = false)
+    public function responseBody(bool $asArray = false)
     {
         if ($this->contentTypeIsJson()) {
             return json_decode($this->rawResponseBody(), $asArray);
@@ -260,36 +220,22 @@ class ApiTestCase extends TestCase
         throw new ContentTypeNotFoundException(sprintf('Content-Type not recognised: "%s"', $this->getContentType()));
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContentType()
+    public function getContentType(): string
     {
         return $this->response->getHeader('Content-Type')[0];
     }
 
-    /**
-     * @return bool
-     */
-    public function contentTypeIsXml()
+    public function contentTypeIsXml(): bool
     {
         return $this->getContentType() === self::XML_CONTENT_TYPE;
     }
 
-    /**
-     * @return bool
-     */
-    public function contentTypeIsJson()
+    public function contentTypeIsJson(): bool
     {
         return $this->getContentType() === self::JSON_CONTENT_TYPE;
     }
 
-    /**
-     * @param $type
-     * @param $path
-     * @param $options
-     */
-    private function request($type, $path, $options)
+    private function request(string $type, string $path, array $options = [])
     {
         $options = $options + [
                 'allow_redirects' => [
@@ -308,12 +254,7 @@ class ApiTestCase extends TestCase
         }
     }
 
-    /**
-     * @param $path
-     *
-     * @return mixed
-     */
-    private function absolutePath($path)
+    private function absolutePath(string $path): string
     {
         $baseUrl = $this->baseUrl();
 
@@ -324,18 +265,12 @@ class ApiTestCase extends TestCase
         return $path;
     }
 
-    /**
-     * @return mixed
-     */
-    private function baseUrl()
+    private function baseUrl(): string
     {
         return $_ENV['api_base_url'];
     }
 
-    /**
-     * @return \SimpleXMLElement
-     */
-    private function getBodyAsXml()
+    private function getBodyAsXml(): SimpleXMLElement
     {
         if ($this->bodyAsXml === null) {
             if ($this->contentTypeIsXml()) {
@@ -351,11 +286,11 @@ class ApiTestCase extends TestCase
     }
 
     /**
-     * @param $query
+     * @param string $query
      *
      * @return null|string
      */
-    private function query($query)
+    private function query(string $query)
     {
         $xml = $this->getBodyAsXml();
 
