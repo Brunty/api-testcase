@@ -227,12 +227,12 @@ class ApiTestCase extends TestCase
 
     public function contentTypeIsXml(): bool
     {
-        return $this->getContentType() === self::XML_CONTENT_TYPE;
+        return strpos($this->getContentType(), self::XML_CONTENT_TYPE) !== false;
     }
 
     public function contentTypeIsJson(): bool
     {
-        return $this->getContentType() === self::JSON_CONTENT_TYPE;
+        return strpos($this->getContentType(), self::JSON_CONTENT_TYPE) !== false;
     }
 
     private function request(string $type, string $path, array $options = [])

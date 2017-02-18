@@ -207,6 +207,9 @@ class ApiTestCaseTest extends ApiTestCase
     {
         $this->get('/get');
         $this->assertResponseWasJson();
+
+        $this->get('/response-headers?Content-Type=application/json; charset=UTF-8');
+        $this->assertResponseWasJson();
     }
 
     /**
@@ -215,6 +218,9 @@ class ApiTestCaseTest extends ApiTestCase
     public function it_asserts_the_response_is_xml()
     {
         $this->get('/xml');
+        $this->assertResponseWasXml();
+
+        $this->get('/response-headers?Content-Type=application/xml; charset=UTF-8');
         $this->assertResponseWasXml();
     }
 
