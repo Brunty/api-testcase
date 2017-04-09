@@ -1,10 +1,11 @@
 {
     "name": "brunty/api-testcase",
-    "description": "A testcase that extends PHPUnit to help with testing API endpoints.",
+    "description": "A testcase that extends PHPUnit to help with testing HTTP (mainly API) endpoints.",
     "keywords": [
         "phpunit",
         "api",
-        "testcase"
+        "testcase",
+        "http"
     ],
     "type": "library",
     "license": "MIT",
@@ -20,7 +21,7 @@
         }
     },
     "require": {
-        "php": "^7.0",
+        "php": "7.0.*||7.1.*",
         "guzzlehttp/guzzle": "^6.2",
         "spatie/array-to-xml": "^2.2",
         "phpunit/phpunit": "^6.0"

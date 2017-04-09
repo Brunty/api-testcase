@@ -219,9 +219,6 @@ class ApiTestCaseTest extends ApiTestCase
     {
         $this->get('/xml');
         $this->assertResponseWasXml();
-
-        $this->get('/response-headers?Content-Type=application/xml; charset=UTF-8');
-        $this->assertResponseWasXml();
     }
 
     /**
@@ -305,6 +302,6 @@ class ApiTestCaseTest extends ApiTestCase
     {
         $this->get('/get');
         self::assertInstanceOf(GuzzleResponse::class, $this->response());
-        self::assertEquals(Response::HTTP_OK, $this->statusCode());
+        self::assertSame(Response::HTTP_OK, $this->statusCode());
     }
 }
