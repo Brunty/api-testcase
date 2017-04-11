@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Brunty;
 
@@ -183,7 +183,7 @@ class ApiTestCase extends TestCase
     }
 
     /**
-     * @param string $query
+     * @param string      $query
      * @param string|null $value
      */
     public function assertNodeIsValue(string $query, $value)
@@ -237,11 +237,12 @@ class ApiTestCase extends TestCase
 
     private function request(string $type, string $path, array $options = [])
     {
-        $options = $options + [
-                'allow_redirects' => [
-                    'track_redirects' => true
-                ]
-            ];
+        $options += [
+            'allow_redirects' => [
+                'track_redirects' => true
+            ]
+        ];
+
         try {
             $this->response = $this->client->$type($path, $options);
             $this->statusCode = $this->response->getStatusCode();
@@ -258,7 +259,7 @@ class ApiTestCase extends TestCase
     {
         $baseUrl = $this->baseUrl();
 
-        if ( ! strstr($path, $baseUrl)) {
+        if (strpos($path, $baseUrl) === false) {
             $path = rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
         }
 
@@ -297,7 +298,7 @@ class ApiTestCase extends TestCase
         $result = $xml->xpath($query);
 
         if (count($result)) {
-            return (string)$result[0];
+            return (string) $result[0];
         }
 
         return null;
